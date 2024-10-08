@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Changed to black */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(34, 34, 34, 0.9); /* Similar dark background for the container */
+            padding: 40px;
+            border-radius: 10px; /* Same border radius as registration */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            width: 80%;
+            max-width: 400px; /* Adjusted max-width for consistency */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #e2c13c; /* Gold color for the title */
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e2c13c; /* Gold color for labels */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #f2f2f2; /* Light background for inputs */
+            color: #000; /* Black text for inputs */
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        input[type="submit"] {
+            background-color: #e2c13c; /* Gold button color */
+            color: #000; /* Black text */
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width for consistency */
+            margin-bottom: 20px; /* Space between button and footer */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #d3a639; /* Darker gold on hover */
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            color: #999;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container input:focus + .icon {
+            color: #007bff; /* Focus color for icons */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="input-container">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+                <i class="fas fa-envelope icon"></i>
+            </div>
+            <div class="input-container">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-lock icon"></i>
+            </div>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+
+</html>

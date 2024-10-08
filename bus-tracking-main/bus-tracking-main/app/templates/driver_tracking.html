@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Tracking - Bus Location Update</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        #update-section {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Driver Update Location</h1>
+
+    <div id="update-section">
+        <h3>Manual Location Update</h3>
+        <form id="location-form">
+            <label for="bus-id">Bus ID:</label>
+            <input type="text" id="bus-id" required><br><br>
+
+            <label for="latitude">Latitude:</label>
+            <input type="number" step="any" id="latitude" required><br><br>
+
+            <label for="longitude">Longitude:</label>
+            <input type="number" step="any" id="longitude" required><br><br>
+
+            <button type="submit">Update Location</button>
+        </form>
+    </div>
+
+    <div id="gps-tracking-section">
+        <h3>Live GPS Tracking</h3>
+        <button id="start-gps-tracking">Start GPS Tracking</button>
+        <button id="stop-gps-tracking">Stop GPS Tracking</button>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 2); // Start with global view
+        var marker;
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Handle manual location form submission
+        document.getElementById('location-form').onsubmit = function(e) {
+            e.preventDefault();
+            var busId = document.getElementById('bus-id').value;
+            var latitude = parseFloat(document.getElementById('latitude').value);
+            var longitude = parseFloat(document.getElementById('longitude').value);
+            
+            // Update the map and marker
+            updateLocationOnMap(latitude, longitude);
+
+            // Send the updated location to the server
+            sendLocationToServer(busId, latitude, longitude);
+        };
+
+        let gpsTrackingInterval;
+
+        // Start live GPS tracking
+        document.getElementById('start-gps-tracking').onclick = function() {
+            if (navigator.geolocation) {
+                gpsTrackingInterval = setInterval(() => {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;
+                        var busId = document.getElementById('bus-id').value;
+
+                        updateLocationOnMap(latitude, longitude);
+                        sendLocationToServer(busId, latitude, longitude);
+                    });
+                }, 5000); // Update every 5 seconds
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        };
+
+        // Stop live GPS tracking
+        document.getElementById('stop-gps-tracking').onclick = function() {
+            clearInterval(gpsTrackingInterval);
+        };
+
+        // Function to update the map marker with new location
+        function updateLocationOnMap(latitude, longitude) {
+            if (marker) {
+                marker.setLatLng([latitude, longitude]);
+            } else {
+                marker = L.marker([latitude, longitude]).addTo(map);
+            }
+            map.setView([latitude, longitude], 14);
+        }
+
+        // Function to send the location data to the server
+        function sendLocationToServer(busId, latitude, longitude) {
+            if (!busId) {
+                alert("Please enter a valid Bus ID.");
+                return;
+            }
+
+            fetch('/update_location', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    bus_id: busId,
+                    latitude: latitude,
+                    longitude: longitude
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    console.error('Error updating location');
+                }
+            }).catch(err => console.error('Fetch error:', err));
+        }
+    </script>
+</body>
+</html>

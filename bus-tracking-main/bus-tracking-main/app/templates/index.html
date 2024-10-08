@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bus Tracker</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif; /* Classic font */
+            background-color: #000; /* Black background */
+            color: #e2c13c; /* Gold text color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center items horizontally */
+            background-color: #222; /* Dark background for the container */
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .header {
+            display: flex; /* Use flexbox to align image and text */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center items horizontally */
+            margin-bottom: 20px; /* Add margin below the header */
+        }
+
+        .icon {
+            width: 80px; /* Set a fixed width for the icon */
+            height: auto;
+            margin-right: 10px; /* Adjusted space between image and text */
+        }
+
+        .title {
+            color: #e2c13c; /* Match the image color */
+            font-size: 2.4rem; /* Increased font size for emphasis */
+            text-align: center;
+            font-weight: 700; /* Bold weight for tagline */
+        }
+
+        .description {
+            color: #e2c13c; /* Description color */
+            font-size: 1.5rem; /* Description font size */
+            text-align: center;
+            margin: 20px 0; /* Space above and below the description */
+        }
+
+        .button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Space above button */
+        }
+
+        .nav-button {
+            background-color: #e2c13c; /* Golden color */
+            color: #000; /* Black text */
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px; /* Adjusted padding for size */
+            font-size: 1.2rem; /* Font size */
+            font-weight: bold; /* Bold text for emphasis */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for scaling */
+            width: 100%;
+            max-width: 180px; /* Max width for uniform size */
+        }
+
+        .nav-button:hover {
+            background-color: #d3a639; /* Darker shade on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .nav-button:active {
+            transform: scale(0.95); /* Slightly shrink when pressed */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img class="icon" src="{{ url_for('static', filename='first.png') }}" alt="Bus Tracker Icon">
+            <div class="title">BUS TRACKER</div>
+        </div>
+        <p class="description">Track your bus in real-time.</p>
+        <div class="button-container">
+            <a href="{{ url_for('register') }}">
+                <button class="nav-button">Sign Up</button>
+            </a>
+        </div>
+        <div class="button-container">
+            <a href="{{ url_for('login') }}">
+                <button class="nav-button">Login</button>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+v<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAP USER LOCATION</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text for contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            width: 800px; /* Fixed width */
+            padding: 20px; /* Padding around the content */
+            border-radius: 10px; /* Rounded corners */
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background for contrast */
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2); /* Soft shadow */
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Larger font size for heading */
+            margin-bottom: 20px; /* Space below heading */
+        }
+
+        #map {
+            height: 350px;
+            width: 100%; /* Full width of container */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2); /* Soft shadow */
+        }
+
+        /* Style for the next button */
+        #nextButton {
+            position: relative; /* Changed to relative */
+            bottom: 0; /* Removed fixed position */
+            margin-top: 20px; /* Space above button */
+            background-color: #FFD700; /* Golden color */
+            color: #000000; /* Black text for contrast */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px; /* Font size */
+            transition: background-color 0.3s; /* Transition effect */
+        }
+
+        /* Style for the next button on hover */
+        #nextButton:hover {
+            background-color: #FFC107; /* Slightly darker golden shade on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Map User Location</h1>
+        <div id="map"></div>
+
+        <!-- Next button -->
+        <form action="{{ url_for('combine') }}" method="post">
+            <button id="nextButton" type="submit">Next</button>
+        </form>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13); // Initialize map with default view
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        navigator.geolocation.watchPosition(success, error); // Watch user's position
+
+        let marker, circle, zoomed; // Declare marker, circle, and zoomed variables
+
+        function success(pos) {
+            const lat = pos.coords.latitude; // Get latitude
+            const lng = pos.coords.longitude; // Get longitude
+            const accuracy = pos.coords.accuracy; // Get accuracy
+            if (marker) { // If marker exists, remove it
+                map.removeLayer(marker);
+                map.removeLayer(circle);
+            }
+            marker = L.marker([lat, lng]).addTo(map); // Add marker to map
+            circle = L.circle([lat, lng], { radius: accuracy }).addTo(map); // Add circle for accuracy
+            if (!zoomed) { // If not zoomed, fit map to circle
+                map.fitBounds(circle.getBounds());
+            }
+        }
+
+        function error(err) {
+            if (err.code === 1) {
+                alert("Please allow location access.");
+            } else {
+                alert("Unable to retrieve location.");
+            }
+        }
+    </script>
+</body>
+
+</html>

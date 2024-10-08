@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure full height */
+        }
+        .container {
+            max-width: 600px;
+            width: 100%; /* Make container responsive */
+            padding: 20px;
+            border: 2px solid #FFD700; /* Gold border */
+            border-radius: 10px;
+            background-color: #1c1c1c; /* Dark grey for contrast */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #FFD700; /* Gold for labels */
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #FFD700; /* Gold border for input fields */
+            border-radius: 5px;
+            background-color: #333333; /* Dark input background */
+            color: #ffffff; /* White text */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FFD700; /* Gold button */
+            color: #000000; /* Black text on button */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%; /* Make the button full width */
+        }
+        button:hover {
+            background-color: #e6b800; /* Slightly darker gold on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <form id="locationForm" action="{{ url_for('bus_routes') }}" method="GET"> 
+        <label for="startLocation">Start Location:</label>
+        <select id="startLocation" name="startLocation" required>
+            <option value="" disabled selected>Select Start Location</option>
+            <option value="Coimbatore Railway Station">Coimbatore Railway Station</option>
+            <option value="Coimbatore Junction">Coimbatore Junction</option>
+            <option value="Podanur">Podanur</option>
+            <option value="Ukkadam">Ukkadam</option>
+            <option value="Sanganur">Sanganur</option>
+            <option value="Ganapathy">Ganapathy</option>
+            <option value="Mettupalayam Road">Mettupalayam Road</option>
+            <option value="Tatabad">Tatabad</option>
+            <option value="Vadavalli">Vadavalli</option>
+            <option value="Saravanampatti">Saravanampatti</option>
+            <option value="Chinthamanipudur">Chinthamanipudur</option>
+            <option value="Nehru Stadium">Nehru Stadium</option>
+            <option value="Kumarasamy College">Kumarasamy College</option>
+            <option value="Pappanaicken Pudur">Pappanaicken Pudur</option>
+            <option value="Kovilpalayam">Kovilpalayam</option>
+            <option value="Alankulam">Alankulam</option>
+            <option value="Tidel Park">Tidel Park</option>
+            <option value="Sathya Sai Hospital">Sathya Sai Hospital</option>
+            <option value="Coimbatore International Airport">Coimbatore International Airport</option>
+            <option value="RS Puram">RS Puram</option>
+            <option value="Singanallur">Singanallur</option>
+            <option value="Peelamedu">Peelamedu</option>
+            <option value="Karumbukkadai">Karumbukkadai</option>
+            <option value="Saibaba Colony">Saibaba Colony</option>
+            <option value="Avinashi Road">Avinashi Road</option>
+            <option value="Race Course">Race Course</option>
+            <option value="Thondamuthur">Thondamuthur</option>
+            <option value="Kottamedu">Kottamedu</option>
+            <option value="Gandhipuram">Gandhipuram</option>
+            <option value="Thudiyalur">Thudiyalur</option>
+            <option value="Pollachi">Pollachi</option>
+            <option value="Kovai Kalai Kudumbam">Kovai Kalai Kudumbam</option>
+            <option value="Ooty Road">Ooty Road</option>
+            <option value="Siddhapudur">Siddhapudur</option>
+            <option value="Trichy Road">Trichy Road</option>
+            <option value="Bharathiar University">Bharathiar University</option>
+        </select>
+
+        <label for="endLocation">End Location:</label>
+        <select id="endLocation" name="endLocation" required>
+            <option value="" disabled selected>Select End Location</option>
+            <!-- Same locations as in Start Location -->
+            <option value="Coimbatore Railway Station">Coimbatore Railway Station</option>
+            <option value="Coimbatore Junction">Coimbatore Junction</option>
+            <option value="Podanur">Podanur</option>
+            <option value="Ukkadam">Ukkadam</option>
+            <option value="Sanganur">Sanganur</option>
+            <option value="Ganapathy">Ganapathy</option>
+            <option value="Mettupalayam Road">Mettupalayam Road</option>
+            <option value="Tatabad">Tatabad</option>
+            <option value="Vadavalli">Vadavalli</option>
+            <option value="Saravanampatti">Saravanampatti</option>
+            <option value="Chinthamanipudur">Chinthamanipudur</option>
+            <option value="Nehru Stadium">Nehru Stadium</option>
+            <option value="Kumarasamy College">Kumarasamy College</option>
+            <option value="Pappanaicken Pudur">Pappanaicken Pudur</option>
+            <option value="Kovilpalayam">Kovilpalayam</option>
+            <option value="Alankulam">Alankulam</option>
+            <option value="Tidel Park">Tidel Park</option>
+            <option value="Sathya Sai Hospital">Sathya Sai Hospital</option>
+            <option value="Coimbatore International Airport">Coimbatore International Airport</option>
+            <option value="RS Puram">RS Puram</option>
+            <option value="Singanallur">Singanallur</option>
+            <option value="Peelamedu">Peelamedu</option>
+            <option value="Karumbukkadai">Karumbukkadai</option>
+            <option value="Saibaba Colony">Saibaba Colony</option>
+            <option value="Avinashi Road">Avinashi Road</option>
+            <option value="Race Course">Race Course</option>
+            <option value="Thondamuthur">Thondamuthur</option>
+            <option value="Kottamedu">Kottamedu</option>
+            <option value="Gandhipuram">Gandhipuram</option>
+            <option value="Thudiyalur">Thudiyalur</option>
+            <option value="Pollachi">Pollachi</option>
+            <option value="Kovai Kalai Kudumbam">Kovai Kalai Kudumbam</option>
+            <option value="Ooty Road">Ooty Road</option>
+            <option value="Siddhapudur">Siddhapudur</option>
+            <option value="Trichy Road">Trichy Road</option>
+            <option value="Bharathiar University">Bharathiar University</option>
+        </select>
+
+        <button type="submit">Find Route</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Bus Location</title>
+</head>
+<body>
+    <h1>Update Location for Bus ID: {{ bus_id }}</h1>
+    <form action="{{ url_for('update_location', bus_id=bus_id) }}" method="POST">
+        <label for="latitude">Latitude:</label>
+        <input type="text" name="latitude" id="latitude" required>
+        <br>
+        <label for="longitude">Longitude:</label>
+        <input type="text" name="longitude" id="longitude" required>
+        <br>
+        <button type="submit">Update Location</button>
+    </form>
+</body>
+</html>
